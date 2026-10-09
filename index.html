@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+<meta name="theme-color" content="#05070d" />
+<title>Apex Velocity — 3D Racing</title>
+<link rel="stylesheet" href="./styles.css" />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='26'>🏎️</text></svg>" />
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"
+  }
+}
+</script>
+</head>
+<body>
+
+<canvas id="scene"></canvas>
+
+<!-- ===================== LOADING ===================== -->
+<div id="loader" class="overlay show">
+  <div class="loader-box">
+    <div class="brand">
+      <span class="brand-sub">velocity</span>
+      <span class="brand-main">APEX</span>
+    </div>
+    <div class="loadbar"><i id="loadfill"></i></div>
+    <div class="loadmsg" id="loadmsg">Warming up the engine…</div>
+  </div>
+</div>
+
+<!-- ===================== HUD ===================== -->
+<div id="hud" class="hidden">
+
+  <!-- top left: position + lap -->
+  <div class="hud-tl">
+    <div class="panel pos-panel">
+      <div class="pos-num" id="posNum">1<span class="pos-suffix" id="posSuffix">st</span></div>
+      <div class="pos-of">of <b id="posTotal">6</b></div>
+    </div>
+    <div class="panel lap-panel">
+      <div class="lap-label">LAP</div>
+      <div class="lap-num"><b id="lapNum">1</b><span>/<i id="lapTotal">3</i></span></div>
+    </div>
+  </div>
+
+  <!-- top center: timing -->
+  <div class="hud-tc">
+    <div class="panel time-panel">
+      <div class="trow"><span class="tk">RACE</span><span class="tv" id="timeRace">0:00.000</span></div>
+      <div class="trow"><span class="tk">CURRENT</span><span class="tv cur" id="timeCur">0:00.000</span></div>
+      <div class="trow best-row"><span class="tk">BEST</span><span class="tv best" id="timeBest">--:--.---</span></div>
+      <div class="lapflash" id="lapFlash"></div>
+    </div>
+  </div>
+
+  <!-- top right: leaderboard -->
+  <div class="hud-tr">
+    <div class="panel board-panel">
+      <div class="board-title">STANDINGS</div>
+      <ol class="board" id="board"></ol>
+    </div>
+  </div>
+
+  <!-- bottom right: speedo -->
+  <div class="hud-br">
+    <div class="speedo-wrap">
+      <canvas id="speedo" width="440" height="440"></canvas>
+      <div class="speedo-readout">
+        <div class="spd" id="spdVal">0</div>
+        <div class="spd-unit" id="spdUnit">KM/H</div>
+      </div>
+      <div class="gear"><span id="gearType">A</span><span id="gearVal">N</span></div>
+    </div>
+    <div class="panel boost-panel">
+      <div class="boost-label">NITRO <span class="key">SHIFT</span></div>
+      <div class="boostbar"><i id="boostFill"></i></div>
+    </div>
+  </div>
+
+  <!-- bottom left: minimap -->
+  <div class="hud-bl">
+    <div class="panel map-panel">
+      <canvas id="minimap" width="300" height="300"></canvas>
+      <div class="map-label" id="trackName">SUNSET RIDGE</div>
+    </div>
+  </div>
+
+  <!-- center messages -->
+  <div class="center-stack">
+    <div id="countdown" class="countdown hidden"></div>
+    <div id="bigMsg" class="big-msg hidden"></div>
+  </div>
+
+  <!-- corner info -->
+  <div class="hud-br-corner">
+    <div class="fps" id="fps">60 FPS</div>
+    <div class="fps sub" id="fpsDetail"></div>
+  </div>
+</div>
+
+<!-- ===================== MENU ===================== -->
+<div id="menu" class="overlay hidden">
+  <div class="menu-box">
+    <div class="brand big">
+      <span class="brand-sub">velocity</span>
+      <span class="brand-main">APEX</span>
+    </div>
+    <p class="tagline">Sunsets, tire smoke and 300 km/h. 3 laps. 5 rivals. One line.</p>
+
+    <div class="menu-cols">
+      <div class="menu-card">
+        <h3>Controls</h3>
+        <ul class="keys">
+          <li><b>W</b> / <b>↑</b><span>Throttle</span></li>
+          <li><b>S</b> / <b>↓</b><span>Brake · Reverse</span></li>
+          <li><b>A</b> <b>D</b> / <b>←</b> <b>→</b><span>Steer</span></li>
+          <li><b>SPACE</b><span>Handbrake (drift)</span></li>
+          <li><b>SHIFT</b><span>Nitro boost</span></li>
+          <li><b>C</b><span>Camera</span></li>
+          <li><b>R</b><span>Respawn on track</span></li>
+          <li><b>P</b> / <b>ESC</b><span>Pause</span></li>
+          <li><b>M</b><span>Mute audio</span></li>
+        </ul>
+        <p class="hint">Gamepad supported — plug in and press any button.</p>
+      </div>
+
+      <div class="menu-card">
+        <h3>Race setup</h3>
+        <div class="opt-row">
+          <label>Laps</label>
+          <div class="seg" id="optLaps" data-values="1,2,3,5,8">
+            <button data-v="1">1</button><button data-v="2">2</button><button class="on" data-v="3">3</button><button data-v="5">5</button><button data-v="8">8</button>
+          </div>
+        </div>
+        <div class="opt-row">
+          <label>Mode</label>
+          <div class="seg" id="optRaceMode" data-values="solo,teams,split,online">
+            <button class="on" data-v="solo">Solo</button><button data-v="teams">Teams</button><button data-v="split">Split</button><button data-v="online">Online</button>
+          </div>
+          <div class="perf-note" id="modeNote">One car against the field.</div>
+        </div>
+        <div class="opt-row" id="rowTeams" hidden>
+          <label>Teams</label>
+          <div class="seg" id="optTeams" data-values="2,3,4,6">
+            <button class="on" data-v="2">2 (1v1)</button><button data-v="3">3</button><button data-v="4">4 (2v2)</button><button data-v="6">6</button>
+          </div>
+        </div>
+        <div class="opt-row" id="rowSplitPlayers" hidden>
+          <label>Players</label>
+          <div class="seg" id="optPlayers" data-values="1,2">
+            <button class="on" data-v="1">1</button><button data-v="2">2</button>
+          </div>
+          <div class="perf-note">Player 2 uses the arrow keys — see the second control set.</div>
+        </div>
+        <div class="opt-row" id="rowOnline" hidden>
+          <label>Online</label>
+          <button class="setup-btn" id="netBtn" style="flex:1;padding:9px 14px">FIND RACE</button>
+          <div class="perf-note" id="netNote">Needs the matchmaking server: node server/matchmaker.mjs</div>
+        </div>
+        <div class="opt-row" id="rowRivals">
+          <label>Rivals</label>
+          <div class="seg" id="optRivals" data-values="3,5,7,9">
+            <button data-v="3">3</button><button class="on" data-v="5">5</button><button data-v="7">7</button><button data-v="9">9</button>
+          </div>
+        </div>
+        <div class="opt-row">
+          <label>Handling</label>
+          <div class="seg" id="optControl" data-values="easy,medium,hard">
+            <button class="on" data-v="easy">Easy</button><button data-v="medium">Med</button><button data-v="hard">Hard</button>
+          </div>
+          <div class="perf-note" id="controlNote">Grippy and self-correcting — slides catch themselves.</div>
+        </div>
+        <div class="opt-row">
+          <label>Graphics</label>
+          <div class="seg" id="optQuality" data-values="auto,low,medium,high,ultra">
+            <button class="on" data-v="auto">Auto</button><button data-v="low">Low</button><button data-v="medium">Med</button><button data-v="high">High</button><button data-v="ultra">Ultra</button>
+          </div>
+          <div class="perf-note" id="perfNote">Auto picks a preset from your measured frame rate.</div>
+        </div>
+        <div class="opt-row">
+          <label>Track</label>
+          <div class="seg" id="optTrack" data-values="sunset,alpine,night,desert,coast">
+            <button class="on" data-v="sunset">Sunset Ridge</button>
+            <button data-v="alpine">Alpine Pass</button>
+            <button data-v="night">Neon Night</button>
+            <button data-v="desert">Desert Cruiser</button>
+            <button data-v="coast">Coast Road</button>
+          </div>
+        </div>
+        <div class="opt-row">
+          <label>View</label>
+          <div class="seg" id="optCamera" data-values="chase,hood,far,cockpit">
+            <button class="on" data-v="chase">Chase</button><button data-v="hood">Hood</button><button data-v="far">Wide</button><button data-v="cockpit">Cockpit</button>
+          </div>
+        </div>
+        <div class="opt-row">
+          <label>Units</label>
+          <div class="seg" id="optUnits" data-values="kmh,mph">
+            <button class="on" data-v="kmh">km/h</button><button data-v="mph">mph</button>
+          </div>
+        </div>
+        <div class="opt-row">
+          <label>Lens</label>
+          <div class="seg" id="optFov" data-values="60,70,85">
+            <button data-v="60">60°</button><button class="on" data-v="70">70°</button><button data-v="85">85°</button>
+          </div>
+        </div>
+        <div class="opt-row">
+          <label>Audio</label>
+          <div class="seg" id="optAudio" data-values="on,off">
+            <button class="on" data-v="on">On</button><button data-v="off">Off</button>
+          </div>
+        </div>
+        <div class="best-line" id="menuBest"></div>
+      </div>
+    </div>
+
+    <div class="menu-actions">
+      <button class="setup-btn" id="setupBtn"><span>CAR SETUP</span></button>
+      <button class="setup-btn" id="garageBtn"><span>GARAGE</span></button>
+      <div class="wallet" id="wallet" title="Coins">0</div>
+      <button class="play-btn" id="playBtn"><span>START RACE</span></button>
+    </div>
+    <div class="menu-foot">Built with Three.js · WebGL · no assets, everything is generated in code</div>
+  </div>
+</div>
+
+<!-- ===================== GARAGE ===================== -->
+<div id="garage" class="overlay setup-overlay hidden">
+  <div class="setup-box">
+    <div class="setup-head">
+      <h2>GARAGE</h2>
+      <div class="wallet big-wallet" id="walletBig">0</div>
+      <button class="setup-close" id="garageClose" aria-label="Close garage">&times;</button>
+    </div>
+    <div class="car-grid" id="carGrid"></div>
+    <div class="setup-summary" id="carNote"></div>
+  </div>
+</div>
+
+<!-- ===================== CAR SETUP ===================== -->
+<div id="setup" class="overlay setup-overlay hidden">
+  <div class="setup-box">
+    <div class="setup-head">
+      <h2>CAR SETUP</h2>
+      <button class="setup-close" id="setupClose" aria-label="Close setup">&times;</button>
+    </div>
+
+    <div class="setup-cols">
+      <div class="setup-card">
+        <h3>Car &amp; driving aids</h3>
+        <div id="setupRows"></div>
+      </div>
+
+      <div class="setup-card">
+        <h3>Lap records</h3>
+        <div id="lapBoard"></div>
+        <button class="clear-btn" id="clearRecords">Clear records</button>
+        <p class="hint">Records are stored per circuit on this device and survive a reload.</p>
+      </div>
+    </div>
+
+    <div class="setup-summary" id="setupSummary"></div>
+  </div>
+</div>
+
+<!-- ===================== PAUSE ===================== -->
+<div id="pause" class="overlay hidden">
+  <div class="pause-box">
+    <h2>PAUSED</h2>
+    <div class="pause-btns">
+      <button class="pbtn primary" id="resumeBtn">Resume</button>
+      <button class="pbtn" id="restartBtn">Restart race</button>
+      <button class="pbtn" id="menuBtn">Back to menu</button>
+    </div>
+    <div class="pause-hint">P or ESC to resume</div>
+  </div>
+</div>
+
+<!-- ===================== RESULTS ===================== -->
+<div id="results" class="overlay hidden">
+  <div class="results-box">
+    <div class="res-title" id="resTitle">RACE COMPLETE</div>
+    <div class="res-sub" id="resSub"></div>
+    <ol class="res-board" id="resBoard"></ol>
+    <div class="res-stats" id="resStats"></div>
+    <div class="pause-btns">
+      <button class="pbtn primary" id="againBtn">Race again</button>
+      <button class="pbtn" id="resMenuBtn">Main menu</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== ERROR ===================== -->
+<div id="ctxLost" class="overlay hidden">
+  <div class="fatal-box">
+    <h2>Graphics context lost</h2>
+    <p>The browser reset the GPU (a driver update, a GPU switch, or the tab
+       being starved of resources). The race will resume as soon as the driver
+       hands the context back &mdash; usually within a second.</p>
+  </div>
+</div>
+<div id="fatal" class="overlay hidden">
+  <div class="fatal-box">
+    <h2>Could not start</h2>
+    <p id="fatalMsg"></p>
+    <p class="fatal-hint">
+      This game uses ES modules, so it must be served over http:// — opening the
+      <code>index.html</code> file directly will not work.<br />
+      Run <code>start.cmd</code> (Windows) or <code>node serve.mjs</code>, then open
+      <code>http://localhost:5173</code>.
+    </p>
+  </div>
+</div>
+
+<script type="module">
+  // WebGL is not guaranteed to exist (old machines, blocklisted drivers,
+  // remote desktops, headless CI). Say so plainly instead of throwing.
+  window.__hasWebGL = (() => {
+    try {
+      const c = document.createElement('canvas');
+      return !!(window.WebGLRenderingContext &&
+        (c.getContext('webgl2') || c.getContext('webgl') ||
+         c.getContext('experimental-webgl')));
+    } catch (e) { return false; }
+  })();
+
+  // Surface any hard failure (e.g. file:// module load) in a readable way.
+  window.addEventListener('error', (e) => {
+    if (document.getElementById('fatal').classList.contains('hidden') && !window.__gameBooted) {
+      const box = document.getElementById('fatal');
+      const msg = document.getElementById('fatalMsg');
+      if (e.message) msg.textContent = e.message;
+      box.classList.remove('hidden');
+      document.getElementById('loader')?.classList.add('hidden');
+    }
+  }, { once: false });
+</script>
+<script type="module" src="./src/main.js"></script>
+</body>
+</html>

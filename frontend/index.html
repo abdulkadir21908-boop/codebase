@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Higgsfield Local - AI Generation</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' style='stop-color:#00d4aa'/><stop offset='100%25' style='stop-color:#0099ff'/></linearGradient></defs><rect width='100' height='100' rx='20' fill='url(%23g)'/><text x='50' y='68' font-size='50' text-anchor='middle' fill='white' font-family='Arial' font-weight='bold'>H</text></svg>">
+</head>
+<body>
+    <div id="app">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="sidebar-logo">
+                <div class="logo-icon">H</div>
+                <span class="logo-text">Higgsfield</span>
+                <span class="logo-badge">LOCAL</span>
+            </div>
+
+            <div class="sidebar-nav">
+                <button class="nav-item active" data-view="generate">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                    <span>Generate</span>
+                </button>
+                <button class="nav-item" data-view="models">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+                    <span>Models</span>
+                </button>
+                <button class="nav-item" data-view="history">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    <span>History</span>
+                </button>
+            </div>
+
+            <div class="sidebar-footer">
+                <div class="system-status">
+                    <div class="status-item">
+                        <span class="status-label">CPU</span>
+                        <span class="status-value" id="cpuStat">--%</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">RAM</span>
+                        <span class="status-value" id="memStat">--%</span>
+                    </div>
+                </div>
+                <button class="nav-item" id="settingsBtn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                    <span>Settings</span>
+                </button>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Generate View -->
+            <div class="view active" id="view-generate">
+                <div class="generate-layout">
+                    <!-- Left: Controls -->
+                    <div class="controls-panel">
+                        <div class="panel-header">
+                            <h2>Create</h2>
+                            <div class="model-badge" id="currentModelBadge">No model selected</div>
+                        </div>
+
+                        <div class="controls-content">
+                            <!-- Prompt -->
+                            <div class="input-group">
+                                <label class="input-label">Prompt</label>
+                                <div class="prompt-wrapper">
+                                    <textarea id="promptInput" class="prompt-input" placeholder="Describe what you want to create..." rows="4"></textarea>
+                                    <div class="prompt-actions">
+                                        <button class="icon-btn" title="Enhance prompt">
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Negative Prompt -->
+                            <div class="input-group">
+                                <label class="input-label">Negative Prompt <span class="optional">Optional</span></label>
+                                <textarea id="negativePromptInput" class="prompt-input" placeholder="What to avoid..." rows="2"></textarea>
+                            </div>
+
+                            <!-- Quick Settings -->
+                            <div class="quick-settings">
+                                <div class="input-group">
+                                    <label class="input-label">Aspect Ratio</label>
+                                    <div class="ratio-buttons">
+                                        <button class="ratio-btn active" data-ratio="1:1">1:1</button>
+                                        <button class="ratio-btn" data-ratio="16:9">16:9</button>
+                                        <button class="ratio-btn" data-ratio="9:16">9:16</button>
+                                        <button class="ratio-btn" data-ratio="4:3">4:3</button>
+                                        <button class="ratio-btn" data-ratio="3:4">3:4</button>
+                                    </div>
+                                </div>
+
+                                <div class="input-row">
+                                    <div class="input-group">
+                                        <label class="input-label">Width</label>
+                                        <input type="number" id="widthInput" class="number-input" value="512" min="64" max="2048" step="64">
+                                    </div>
+                                    <div class="input-group">
+                                        <label class="input-label">Height</label>
+                                        <input type="number" id="heightInput" class="number-input" value="512" min="64" max="2048" step="64">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Advanced Toggle -->
+                            <button class="advanced-toggle" id="advancedToggle">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                                <span>Advanced Settings</span>
+                            </button>
+
+                            <!-- Advanced Panel -->
+                            <div class="advanced-panel" id="advancedPanel">
+                                <div class="input-row">
+                                    <div class="input-group">
+                                        <label class="input-label">Steps</label>
+                                        <div class="slider-container">
+                                            <input type="range" id="stepsSlider" min="1" max="100" value="20">
+                                            <span class="slider-value" id="stepsValue">20</span>
+                                        </div>
+                                    </div>
+                                    <div class="input-group">
+                                        <label class="input-label">Guidance</label>
+                                        <div class="slider-container">
+                                            <input type="range" id="guidanceSlider" min="0" max="20" value="7.5" step="0.5">
+                                            <span class="slider-value" id="guidanceValue">7.5</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="input-group">
+                                    <label class="input-label">Seed</label>
+                                    <div class="seed-container">
+                                        <input type="number" id="seedInput" class="number-input" placeholder="Random">
+                                        <button class="icon-btn" id="randomSeedBtn" title="Random seed">
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/><line x1="4" y1="4" x2="9" y2="9"/></svg>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- Video Options -->
+                                <div class="video-options" id="videoOptions" style="display: none;">
+                                    <div class="input-row">
+                                        <div class="input-group">
+                                            <label class="input-label">Frames</label>
+                                            <div class="slider-container">
+                                                <input type="range" id="framesSlider" min="1" max="128" value="16">
+                                                <span class="slider-value" id="framesValue">16</span>
+                                            </div>
+                                        </div>
+                                        <div class="input-group">
+                                            <label class="input-label">FPS</label>
+                                            <div class="slider-container">
+                                                <input type="range" id="fpsSlider" min="1" max="30" value="8">
+                                                <span class="slider-value" id="fpsValue">8</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Backend Selection -->
+                            <div class="input-group">
+                                <label class="input-label">Backend</label>
+                                <div class="backend-select">
+                                    <select id="backendSelect" class="select-input">
+                                        <option value="auto">Auto (Local → Cloud)</option>
+                                        <option value="local">Local Only</option>
+                                        <option value="cloud">Cloud Only</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Generate Button -->
+                            <button class="generate-btn" id="generateBtn">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                                <span>Generate</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Right: Preview -->
+                    <div class="preview-panel">
+                        <div class="preview-header">
+                            <h3>Preview</h3>
+                            <div class="preview-actions">
+                                <button class="icon-btn" id="downloadBtn" title="Download" disabled>
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                                </button>
+                                <button class="icon-btn" id="copyPromptBtn" title="Copy prompt">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="preview-area" id="previewArea">
+                            <div class="preview-placeholder">
+                                <div class="placeholder-icon">
+                                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                                </div>
+                                <p>Your creation will appear here</p>
+                            </div>
+                        </div>
+                        <div class="preview-info" id="previewInfo" style="display: none;">
+                            <div class="info-item">
+                                <span class="info-label">Model</span>
+                                <span class="info-value" id="infoModel">--</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Time</span>
+                                <span class="info-value" id="infoTime">--</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Resolution</span>
+                                <span class="info-value" id="infoResolution">--</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Models View -->
+            <div class="view" id="view-models">
+                <div class="models-layout">
+                    <div class="models-header">
+                        <h2>Models</h2>
+                        <div class="models-filter">
+                            <button class="filter-btn active" data-filter="all">All</button>
+                            <button class="filter-btn" data-filter="image">Images</button>
+                            <button class="filter-btn" data-filter="video">Videos</button>
+                            <button class="filter-btn" data-filter="downloaded">Downloaded</button>
+                        </div>
+                    </div>
+                    <div class="models-grid" id="modelsGrid">
+                        <div class="models-loading">Loading models...</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- History View -->
+            <div class="view" id="view-history">
+                <div class="history-layout">
+                    <div class="history-header">
+                        <h2>History</h2>
+                        <button class="btn-secondary" id="clearHistoryBtn">Clear History</button>
+                    </div>
+                    <div class="history-grid" id="historyGrid">
+                        <div class="history-empty">No generations yet</div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Settings Modal -->
+    <div class="modal-overlay" id="settingsModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Settings</h3>
+                <button class="modal-close" id="closeSettings">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="settings-group">
+                    <h4>Cloud API</h4>
+                    <div class="input-group">
+                        <label class="input-label">Higgsfield API Key</label>
+                        <input type="password" id="settingApiKey" class="text-input" placeholder="Enter API key">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">API URL</label>
+                        <input type="text" id="settingApiUrl" class="text-input" value="https://api.higgsfield.ai/v1">
+                    </div>
+                </div>
+                <div class="settings-group">
+                    <h4>Performance</h4>
+                    <div class="input-group">
+                        <label class="input-label">Max Concurrent Jobs</label>
+                        <input type="number" id="settingMaxJobs" class="number-input" value="1" min="1" max="4">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">Job Timeout (seconds)</label>
+                        <input type="number" id="settingTimeout" class="number-input" value="300" min="30" max="3600">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" id="cancelSettings">Cancel</button>
+                <button class="btn-primary" id="saveSettings">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script type="module" src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html><html><head><meta charset='utf-8'>
+<title>Max-RAM-Laptop-Parts</title>
+<style>
+* { box-sizing: border-box; }
+body { font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif; margin: 0;
+       padding: 32px; background: #f4f6f8; color: #1a1a1a; }
+h1 { font-size: 24px; color: #1F3864; margin: 0 0 4px; }
+h2 { font-size: 18px; color: #1F3864; margin: 36px 0 10px;
+     border-bottom: 2px solid #1F3864; padding-bottom: 6px; }
+.sub { color: #595959; font-style: italic; margin: 0 0 22px; font-size: 13px;
+       max-width: 900px; }
+table { border-collapse: collapse; width: 100%; background: #fff;
+        box-shadow: 0 1px 3px rgba(0,0,0,.12); margin-bottom: 8px; }
+th { background: #1F3864; color: #fff; font-size: 12px; text-transform: uppercase;
+     letter-spacing: .04em; padding: 10px 11px; text-align: left;
+     border: 1px solid #16305c; }
+td { padding: 10px 11px; border: 1px solid #d9dde1; font-size: 13px;
+     vertical-align: top; }
+tr:nth-child(even) td { background: #fafbfc; }
+td.num { text-align: center; color: #6b7280; width: 42px; }
+td.part { font-weight: 600; width: 24%; }
+td.spec { width: 26%; color: #333; }
+td.purpose { width: 38%; color: #444; }
+td.prio { text-align: center; font-weight: 600; font-size: 12px; white-space: nowrap; }
+.ess { background: #fce4d6 !important; color: #9c3d16; }
+.rec { background: #fff2cc !important; color: #8a6100; }
+.opt { background: #e2efda !important; color: #2f6b2f; }
+td.tier { font-weight: 600; }
+td.role { color: #444; white-space: nowrap; }
+.notes { background: #fff; padding: 14px 20px; box-shadow: 0 1px 3px rgba(0,0,0,.12); }
+.notes li { margin: 6px 0; font-size: 13px; line-height: 1.5; }
+.tag { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 7px;
+       border-radius: 9px; letter-spacing: .04em; }
+.tag.hot { background: #fce4d6; color: #9c3d16; }
+.tag.cold { background: #dbe9f7; color: #1c4e80; }
+footer { margin-top: 30px; color: #7a8288; font-size: 11px; }
+</style></head><body>
+<h1>Max-RAM Laptop &mdash; Parts List</h1>
+<p class='sub'><b>Goal:</b> RAM holds the <span class='tag hot'>HOT</span> data (what you are working on right now); the NVMe SSD holds the <span class='tag cold'>COLD</span> data (spillover + inactive). Priority is a recommendation, not a price.</p>
+<table><thead><tr><th>#</th><th>Part / Component</th><th>Recommended Spec</th><th>Purpose (why you need it)</th><th>Priority</th></tr></thead><tbody>
+<tr><td class='num'>1</td><td class='part'>Motherboard (workstation-class mobile)</td><td class='spec'>4x SO-DIMM slots, dual/quad-channel, high-density DDR5 support</td><td class='purpose'>This sets your ceiling. Consumer laptop boards usually only have 2 slots, which caps total RAM no matter how big the modules are.</td>
+<td class='prio ess'>Essential</td></tr>
+<tr><td class='num'>2</td><td class='part'>DDR5 SO-DIMM modules</td><td class='spec'>4 x 32GB = 128GB, or 4 x 48GB = 192GB. Match speed and CL across all four.</td><td class='purpose'>The HOT tier - this is the working set. Size it so everything you actively use fits at once and never spills to the SSD.</td>
+<td class='prio ess'>Essential</td></tr>
+<tr><td class='num'>3</td><td class='part'>RAM heat spreaders / active RAM cooling</td><td class='spec'>Tall anodised heat spreaders or a powered RAM cooling bar</td><td class='purpose'>192GB of densely-packed DDR5 gets very hot. Throttled or thermally-cycled memory will corrupt the hot tier or crash the machine.</td>
+<td class='prio rec'>Recommended</td></tr>
+<tr><td class='num'>4</td><td class='part'>CPU with high memory bandwidth</td><td class='spec'>Workstation mobile CPU, 8 memory channels, large L3 cache</td><td class='purpose'>The memory controller and L3 are what actually make a big pool usable. Without bandwidth, a huge RAM pool feels no faster than a small one.</td>
+<td class='prio ess'>Essential</td></tr>
+<tr><td class='num'>5</td><td class='part'>Discrete GPU with large VRAM</td><td class='spec'>24-48GB VRAM workstation GPU</td><td class='purpose'>VRAM is a second hot tier sitting right next to system RAM. Pushing frames/datasets into VRAM keeps them off the SSD entirely.</td>
+<td class='prio rec'>Recommended</td></tr>
+<tr><td class='num'>6</td><td class='part'>NVMe SSDs (2x or 4x)</td><td class='spec'>Gen4 or Gen5 NVMe, 2-4TB each, TLC preferred over QLC</td><td class='purpose'>The COLD tier. Holds the spillover, the pagefile, and every app and file you are not currently touching. Cheap and fast - treat it as overflow.</td>
+<td class='prio ess'>Essential</td></tr>
+<tr><td class='num'>7</td><td class='part'>Storage controller / RAID</td><td class='spec'>Hardware RAID, or software striped volume across the NVMe drives</td><td class='purpose'>Fuses the drives into one large fast volume so the cold tier doesn&#x27;t become a random I/O bottleneck when it spills back into RAM.</td>
+<td class='prio rec'>Recommended</td></tr>
+<tr><td class='num'>8</td><td class='part'>M.2 expansion bays</td><td class='spec'>2-4 accessible M.2 2280 slots, tool-less access where possible</td><td class='purpose'>Cold storage always grows. More bays means you can add drives later instead of replacing them.</td>
+<td class='prio ess'>Essential</td></tr>
+<tr><td class='num'>9</td><td class='part'>Power adapter</td><td class='spec'>180-300W for the architecture, plus USB-C PD as backup</td><td class='purpose'>CPU, GPU and a fully populated RAM board all draw at once. A weak adapter throttles the entire configuration under load.</td>
+<td class='prio ess'>Essential</td></tr>
+<tr><td class='num'>10</td><td class='part'>Large internal battery</td><td class='spec'>99Wh-class, removable if the chassis allows</td><td class='purpose'>Acts as a mini-UPS. The hot tier is volatile and vanishes on power loss, so ride-through time prevents losing hours of in-memory work.</td>
+<td class='prio rec'>Recommended</td></tr>
+<tr><td class='num'>11</td><td class='part'>Cooling system</td><td class='spec'>Large vapour chamber, liquid-metal or high-quality paste, dual fans</td><td class='purpose'>Sustained full power with 192GB of RAM needs real thermal headroom. Once the CPU or memory throttles, the extra capacity stops paying off.</td>
+<td class='prio ess'>Essential</td></tr>
+<tr><td class='num'>12</td><td class='part'>Thermal pads and ducting</td><td class='spec'>Correct pad thickness per component, direct-on-die where supported</td><td class='purpose'>The hot/cold split only works if RAM, SSD and GPU all stay inside their temperature limits. Pads are cheaper than the data you would lose.</td>
+<td class='prio rec'>Recommended</td></tr>
+<tr><td class='num'>13</td><td class='part'>RAMDisk software</td><td class='spec'>ImDisk or Dataram RAMDisk on Windows; tmpfs / zram on Linux</td><td class='purpose'>This is what actually CREATES the hot tier - a drive that literally lives in RAM. Without it you have big RAM but no hot tier.</td>
+<td class='prio ess'>Essential</td></tr>
+<tr><td class='num'>14</td><td class='part'>Spillover configuration</td><td class='spec'>Large pagefile on the NVMe, memory-mapped files, zram enabled</td><td class='purpose'>Defines the RAM-to-SSD handoff. Lets the OS page cold data out to the SSD instead of running out of memory and failing.</td>
+<td class='prio ess'>Essential</td></tr>
+<tr><td class='num'>15</td><td class='part'>Networking</td><td class='spec'>2.5GbE, 10GbE if the chassis supports it</td><td class='purpose'>Lets cold data be offloaded to a NAS or server over fast Ethernet, so the SSD does not have to be a permanent archive.</td>
+<td class='prio rec'>Recommended</td></tr>
+<tr><td class='num'>16</td><td class='part'>Chassis / tool-less expandability</td><td class='spec'>Direct access to RAM slots and M.2 bays</td><td class='purpose'>You will need to open the machine to add RAM and drives as your data grows. Glued-down panels make upgrades painful.</td>
+<td class='prio rec'>Recommended</td></tr>
+<tr><td class='num'>17</td><td class='part'>Virtualisation support (VT-x / VT-d, IOMMU)</td><td class='spec'>Enabled in BIOS</td><td class='purpose'>Only needed if you run VMs - it lets guest machines share the big RAM pool instead of each one being capped at a fixed slice.</td>
+<td class='prio opt'>Optional</td></tr>
+<tr><td class='num'>18</td><td class='part'>External UPS or surge protection</td><td class='spec'>Any UPS with pass-through on the charger input</td><td class='purpose'>Desktop-grade protection for the RAM cache and the NVMe cold tier during mains cuts and brownouts.</td>
+<td class='prio opt'>Optional</td></tr>
+</tbody></table>
+<h2>How the RAM / SSD split works</h2>
+<p class='sub'>Speed order, fastest to slowest. You want active data at the top.</p>
+<table><thead><tr><th>Tier</th><th>Role</th><th>What lives there</th></tr></thead><tbody>
+<tr><td class='tier'>GPU VRAM</td><td class='role'>HOT <span class='tag hot'>HOT</span></td><td>Fastest memory on the board. Holds whatever the GPU is actively working on right now.</td></tr>
+<tr><td class='tier'>System RAM</td><td class='role'>HOT tier <span class='tag hot'>HOT</span></td><td>Your working set. Everything you are actively using should live here. Lost on power off.</td></tr>
+<tr><td class='tier'>NVMe SSD</td><td class='role'>COLD tier <span class='tag cold'>COLD</span></td><td>Spillover and archive. Holds inactive apps, the pagefile and anything not currently in use.</td></tr>
+<tr><td class='tier'>NAS / server (optional)</td><td class='role'>COLD archive <span class='tag cold'>COLD</span></td><td>Offloaded via fast Ethernet so the SSD does not have to keep everything forever.</td></tr>
+</tbody></table>
+<h2>Capacity combinations</h2>
+<p class='sub'>Total is a live formula in the .xlsx &mdash; change GB-per-module or slot count and it recalculates.</p>
+<table><thead><tr><th>Config</th><th>GB per module</th><th>Slots used</th><th>Total RAM (GB)</th></tr></thead><tbody>
+<tr><td class='tier'>Entry - 2x32GB</td><td class='num'>32</td><td class='num'>2</td><td class='num'><b>64</b></td></tr>
+<tr><td class='tier'>Entry alt - 4x16GB</td><td class='num'>16</td><td class='num'>4</td><td class='num'><b>64</b></td></tr>
+<tr><td class='tier'>Balanced - 4x32GB</td><td class='num'>32</td><td class='num'>4</td><td class='num'><b>128</b></td></tr>
+<tr><td class='tier'>Maximum - 4x48GB</td><td class='num'>48</td><td class='num'>4</td><td class='num'><b>192</b></td></tr>
+<tr><td class='tier'>Extreme - 8x32GB (rarest boards)</td><td class='num'>32</td><td class='num'>8</td><td class='num'><b>256</b></td></tr>
+</tbody></table>
+<h2>Realistic ceiling</h2><div class='notes'><ul>
+<li>&quot;Unlimited&quot; RAM is not physically possible - the ceiling is (slots x max module size).</li>
+<li>Most laptops top out at 4 SO-DIMM slots; 4 x 48GB = 192GB is a realistic high-water mark.</li>
+<li>A few workstation boards expose 8 slots (4 soldered + 4 replaceable) for 256GB.</li>
+<li>Beyond that, add DIMMs on a desktop board, or move cold data to a NAS.</li>
+<li>Budget roughly 1.5-2x your RAM size in NVMe for the cold tier to stay responsive.</li>
+</ul></div>
+<footer>Source workbook: Max-RAM-Laptop-Parts.xlsx &mdash; 2 sheets, 18 parts. No prices included.</footer>
+</body></html>

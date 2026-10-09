@@ -1,0 +1,160 @@
+{
+  "messages": [
+    {
+      "role": "user",
+      "content": "help",
+      "timestamp": "2026-07-12T11:41:51.669157"
+    },
+    {
+      "role": "user",
+      "content": "make a website for shoe sellers and run it on local host",
+      "timestamp": "2026-07-12T11:42:53.982232"
+    },
+    {
+      "role": "assistant",
+      "content": "I don't understand that. Type 'help' for commands.",
+      "timestamp": "2026-07-12T11:42:53.989078"
+    },
+    {
+      "role": "user",
+      "content": "help",
+      "timestamp": "2026-07-12T11:46:49.856086"
+    },
+    {
+      "role": "user",
+      "content": "read ai-agent",
+      "timestamp": "2026-07-12T11:47:06.981366"
+    },
+    {
+      "role": "assistant",
+      "content": "[error] Is a directory: ai-agent",
+      "timestamp": "2026-07-12T11:47:06.983364"
+    },
+    {
+      "role": "user",
+      "content": "search hello",
+      "timestamp": "2026-07-12T11:47:22.327698"
+    },
+    {
+      "role": "assistant",
+      "content": "No files match: hello",
+      "timestamp": "2026-07-12T11:47:22.328698"
+    },
+    {
+      "role": "user",
+      "content": "config",
+      "timestamp": "2026-07-12T11:47:58.517252"
+    },
+    {
+      "role": "user",
+      "content": "joke",
+      "timestamp": "2026-07-12T11:48:14.635950"
+    },
+    {
+      "role": "assistant",
+      "content": "Why do programmers prefer dark mode? Because light attracts bugs.",
+      "timestamp": "2026-07-12T11:48:14.635950"
+    },
+    {
+      "role": "user",
+      "content": "not funny",
+      "timestamp": "2026-07-12T11:48:27.333069"
+    },
+    {
+      "role": "assistant",
+      "content": "I don't understand that. Type 'help' for commands.",
+      "timestamp": "2026-07-12T11:48:27.334069"
+    },
+    {
+      "role": "user",
+      "content": "joke",
+      "timestamp": "2026-07-12T11:48:32.807335"
+    },
+    {
+      "role": "assistant",
+      "content": "Why do programmers prefer dark mode? Because light attracts bugs.",
+      "timestamp": "2026-07-12T11:48:32.822181"
+    },
+    {
+      "role": "user",
+      "content": "time",
+      "timestamp": "2026-07-12T11:48:45.100359"
+    },
+    {
+      "role": "assistant",
+      "content": "2026-07-12 11:48:45",
+      "timestamp": "2026-07-12T11:48:45.182963"
+    },
+    {
+      "role": "user",
+      "content": "time",
+      "timestamp": "2026-07-12T11:48:56.951698"
+    },
+    {
+      "role": "assistant",
+      "content": "2026-07-12 11:48:57",
+      "timestamp": "2026-07-12T11:48:57.022519"
+    },
+    {
+      "role": "user",
+      "content": "config",
+      "timestamp": "2026-07-12T11:49:04.910339"
+    },
+    {
+      "role": "user",
+      "content": "custom_commands",
+      "timestamp": "2026-07-12T11:49:22.788095"
+    },
+    {
+      "role": "assistant",
+      "content": "I don't understand that. Type 'help' for commands.",
+      "timestamp": "2026-07-12T11:49:22.788095"
+    },
+    {
+      "role": "user",
+      "content": "custom commands",
+      "timestamp": "2026-07-12T11:49:42.084773"
+    },
+    {
+      "role": "assistant",
+      "content": "I don't understand that. Type 'help' for commands.",
+      "timestamp": "2026-07-12T11:49:42.086773"
+    },
+    {
+      "role": "user",
+      "content": "help",
+      "timestamp": "2026-07-12T11:49:48.220445"
+    },
+    {
+      "role": "user",
+      "content": "write a clculater",
+      "timestamp": "2026-07-12T11:50:09.821824"
+    },
+    {
+      "role": "assistant",
+      "content": "I don't understand that. Type 'help' for commands.",
+      "timestamp": "2026-07-12T11:50:09.822826"
+    },
+    {
+      "role": "user",
+      "content": "write",
+      "timestamp": "2026-07-12T11:50:14.972609"
+    },
+    {
+      "role": "assistant",
+      "content": "I don't understand that. Type 'help' for commands.",
+      "timestamp": "2026-07-12T11:50:14.972609"
+    },
+    {
+      "role": "user",
+      "content": "/write",
+      "timestamp": "2026-07-12T11:50:21.724767"
+    },
+    {
+      "role": "assistant",
+      "content": "I don't understand that. Type 'help' for commands.",
+      "timestamp": "2026-07-12T11:50:21.724767"
+    }
+  ],
+  "facts": []
+}

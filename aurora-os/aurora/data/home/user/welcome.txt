@@ -1,0 +1,6 @@
+Welcome to Aurora OS!
+
+This is a fresh installation.
+Your files have been restored from backup.
+
+Enjoy exploring Aurora!

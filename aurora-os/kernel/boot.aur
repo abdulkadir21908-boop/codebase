@@ -1,0 +1,100 @@
+; Aurora OS - Boot sequence
+; Runs first, sets up display, shows logo
+
+; Clear screen
+trap 2
+
+; Set color: white on black
+set r14 0x0F
+
+; Print blank line
+trap 0 10
+
+; Print border
+set r3 msg_border
+trap 1 r3
+trap 0 10
+
+; Blank line
+trap 0 10
+
+; Logo line 1
+set r3 msg_logo1
+trap 1 r3
+trap 0 10
+
+; Logo line 2
+set r3 msg_logo2
+trap 1 r3
+trap 0 10
+
+; Logo line 3
+set r3 msg_logo3
+trap 1 r3
+trap 0 10
+
+; Logo line 4
+set r3 msg_logo4
+trap 1 r3
+trap 0 10
+
+; Blank line
+trap 0 10
+
+; Print border
+set r3 msg_border
+trap 1 r3
+trap 0 10
+
+; Blank line
+trap 0 10
+
+; Version
+set r3 msg_ver
+trap 1 r3
+trap 0 10
+
+; Blank line
+trap 0 10
+
+; Status
+set r3 msg_status
+trap 1 r3
+trap 0 10
+
+; Blank line
+trap 0 10
+
+; Ready
+set r3 msg_ready
+trap 1 r3
+trap 0 10
+
+; Blank line
+trap 0 10
+
+; Bottom border
+set r3 msg_border
+trap 1 r3
+trap 0 10
+
+; Done
+stop
+
+; String data
+msg_border:
+  db "============================================================"
+msg_logo1:
+  db "        _                         __                    "
+msg_logo2:
+  db "   ____(_)___ _____ ___  ____    / /_ ___  _________ _ "
+msg_logo3:
+  db "  / __  / __ `/ __ `__ \\/ __ \\  / __/ _ \\/ ___/ __ `/ "
+msg_logo4:
+  db " / /_/ / /_/ / / / / / / /_/ / / /_/  __/ /  / /_/ /  "
+msg_ver:
+  db "  Aurora OS v0.1.0 - Dawn"
+msg_status:
+  db "  STATUS: ALL SYSTEMS OPERATIONAL"
+msg_ready:
+  db "  Ready."

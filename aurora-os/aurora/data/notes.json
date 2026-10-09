@@ -1,0 +1,26 @@
+[
+ {
+  "id": 4,
+  "title": "alis badnes",
+  "body": "ali is being bad because he reads so loudly that he cant even eat choclete",
+  "date": "14/07/2026"
+ },
+ {
+  "id": 1,
+  "title": "Welcome to Aurora",
+  "body": "Aurora OS v0.1.0 - Dawn Release\n\nThis is the first release of Aurora OS.\nFeatures:\n- Custom AISA-64 CPU architecture\n- Custom assembler and instruction set\n- In-memory filesystem (AuroraFS)\n- Desktop environment with windows\n- Dock, menu bar, and notifications\n- Terminal, Finder, Calculator, Notes\n- Activity Monitor, System Settings\n\nEnjoy the Aurora experience!",
+  "date": "14/07/2026"
+ },
+ {
+  "id": 2,
+  "title": "Kernel Boot Sequence",
+  "body": "1. BIOS POST and memory check\n2. Load kernel from sector 1\n3. Display boot logo (ASCII art)\n4. Initialize AISA-64 CPU\n5. Set up interrupt vector table\n6. Load filesystem driver\n7. Initialize window server\n8. Start desktop environment\n\nKernel size: 556 bytes",
+  "date": "14/07/2026"
+ },
+ {
+  "id": 3,
+  "title": "Shortcuts",
+  "body": "Ctrl+Space  - Spotlight Search\nEsc         - Close Spotlight\nCtrl+N      - New Terminal\nCtrl+Shift+A - Activity Monitor\n\nWindow Controls:\nRed    - Close\nYellow - Minimize\nGreen  - Maximize\n\nDrag title bar to move windows.",
+  "date": "14/07/2026"
+ }
+]

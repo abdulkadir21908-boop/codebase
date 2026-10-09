@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  higgsfield-local:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: higgsfield-local
+    ports:
+      - "7860:7860"
+    environment:
+      - PYTHONUNBUFFERED=1
+      - DEFAULT_DEVICE=cpu
+      - MODEL_CACHE_DIR=/models
+      - MAX_CONCURRENT_JOBS=1
+      - HIGGSFIELD_API_KEY=${HIGGSFIELD_API_KEY:-}
+    volumes:
+      - ./models:/models
+      - ./backend:/app/backend:ro
+      - ./frontend:/app/frontend:ro
+    deploy:
+      resources:
+        limits:
+          memory: 6G
+        reservations:
+          memory: 4G
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:7860/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+  # Optional: Redis for job queue persistence
+  redis:
+    image: redis:7-alpine
+    container_name: higgsfield-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+    profiles:
+      - with-redis
+
+volumes:
+  redis_data:

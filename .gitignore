@@ -1,0 +1,53 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+.env
+.env.local
+
+# Models
+models/cache/
+*.gguf
+*.bin
+*.safetensors
+
+# Outputs
+outputs/
+*.png
+*.jpg
+*.mp4
+*.webm
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Docker
+docker-compose.override.yml
+
+# Binary recordings (asm-race build output, tens of megabytes each)
+*.raw
+asm-race/build/
+
+# Compiled assembly objects and libraries
+*.o
+*.lib
+
+# Scratch
+build/
+agent-cli/projects/scratch/
+.opencode/

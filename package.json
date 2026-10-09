@@ -1,0 +1,13 @@
+{
+  "name": "apex-velocity",
+  "version": "1.0.0",
+  "description": "Apex Velocity - 3D racing game built with Three.js (WebGL). No build step, no npm install required.",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "start": "node serve.mjs",
+    "dev": "node serve.mjs"
+  },
+  "keywords": ["racing", "3d", "threejs", "webgl", "game"],
+  "license": "MIT"
+}

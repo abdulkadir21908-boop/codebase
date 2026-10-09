@@ -1,0 +1,6 @@
+My To-Do List
+------------
+- Explore Aurora OS
+- Try the terminal
+- Customize settings
+- Have fun!

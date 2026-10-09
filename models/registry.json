@@ -1,0 +1,143 @@
+{
+  "models": [
+    {
+      "model_id": "flux-schnell-4bit",
+      "name": "Flux.1 Schnell (4-bit)",
+      "type": "image",
+      "backend": "diffusers",
+      "hf_repo_id": "black-forest-labs/FLUX.1-schnell",
+      "pipeline_class": "FluxPipeline",
+      "local_path": null,
+      "workflow_path": null,
+      "quantization": "q4_k_m",
+      "size_gb": 4.7,
+      "min_ram_gb": 6.0,
+      "recommended_ram_gb": 8.0,
+      "description": "Fast Flux variant, excellent quality, 4-bit quantized for CPU",
+      "tags": [
+        "flux",
+        "fast",
+        "high-quality"
+      ],
+      "is_default": true,
+      "downloaded": false,
+      "quantized": false
+    },
+    {
+      "model_id": "sdxl-turbo-4bit",
+      "name": "SDXL Turbo (4-bit)",
+      "type": "image",
+      "backend": "diffusers",
+      "hf_repo_id": "stabilityai/sdxl-turbo",
+      "pipeline_class": "StableDiffusionXLPipeline",
+      "local_path": null,
+      "workflow_path": null,
+      "quantization": "q4_k_m",
+      "size_gb": 2.6,
+      "min_ram_gb": 4.0,
+      "recommended_ram_gb": 6.0,
+      "description": "Ultra-fast SDXL, 1-4 steps, 4-bit quantized",
+      "tags": [
+        "sdxl",
+        "turbo",
+        "fast"
+      ],
+      "is_default": false,
+      "downloaded": false,
+      "quantized": false
+    },
+    {
+      "model_id": "sd15-4bit",
+      "name": "Stable Diffusion 1.5 (4-bit)",
+      "type": "image",
+      "backend": "diffusers",
+      "hf_repo_id": "runwayml/stable-diffusion-v1-5",
+      "pipeline_class": "StableDiffusionPipeline",
+      "local_path": null,
+      "workflow_path": null,
+      "quantization": "q4_k_m",
+      "size_gb": 0.9,
+      "min_ram_gb": 2.0,
+      "recommended_ram_gb": 4.0,
+      "description": "Classic SD 1.5, very lightweight, 4-bit quantized",
+      "tags": [
+        "sd15",
+        "lightweight",
+        "classic"
+      ],
+      "is_default": false,
+      "downloaded": false,
+      "quantized": false
+    },
+    {
+      "model_id": "cogvideox-2b-4bit",
+      "name": "CogVideoX-2B (4-bit)",
+      "type": "video",
+      "backend": "diffusers",
+      "hf_repo_id": "THUDM/CogVideoX-2b",
+      "pipeline_class": "CogVideoXPipeline",
+      "local_path": null,
+      "workflow_path": null,
+      "quantization": "q4_k_m",
+      "size_gb": 2.0,
+      "min_ram_gb": 4.0,
+      "recommended_ram_gb": 8.0,
+      "description": "Smallest CogVideoX, good quality, 4-bit for CPU",
+      "tags": [
+        "cogvideo",
+        "video",
+        "small"
+      ],
+      "is_default": false,
+      "downloaded": false,
+      "quantized": false
+    },
+    {
+      "model_id": "ltx-video-4bit",
+      "name": "LTX-Video 0.9B (4-bit)",
+      "type": "video",
+      "backend": "diffusers",
+      "hf_repo_id": "Lightricks/LTX-Video",
+      "pipeline_class": "LTXPipeline",
+      "local_path": null,
+      "workflow_path": null,
+      "quantization": "q4_k_m",
+      "size_gb": 0.9,
+      "min_ram_gb": 3.0,
+      "recommended_ram_gb": 6.0,
+      "description": "Lightning-fast video generation, 0.9B params, 4-bit",
+      "tags": [
+        "ltx",
+        "video",
+        "fast",
+        "lightweight"
+      ],
+      "is_default": false,
+      "downloaded": false,
+      "quantized": false
+    },
+    {
+      "model_id": "wan21-tiny-4bit",
+      "name": "Wan2.1 Tiny (4-bit)",
+      "type": "video",
+      "backend": "diffusers",
+      "hf_repo_id": "Wan-AI/Wan2.1-T2V-1.3B",
+      "pipeline_class": "WanPipeline",
+      "local_path": null,
+      "workflow_path": null,
+      "quantization": "q4_k_m",
+      "size_gb": 1.3,
+      "min_ram_gb": 3.0,
+      "recommended_ram_gb": 6.0,
+      "description": "Tiny Wan2.1 variant, efficient video generation",
+      "tags": [
+        "wan",
+        "video",
+        "tiny"
+      ],
+      "is_default": false,
+      "downloaded": false,
+      "quantized": false
+    }
+  ]
+}
